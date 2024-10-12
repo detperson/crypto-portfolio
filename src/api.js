@@ -15,3 +15,14 @@ export function fetchAssets() {
         }, 2)
     })
 }
+
+export function fetchLocalStorage() {
+    return new Promise((resolve, reject) => {
+        const assetsJSON = localStorage.getItem('assets')
+        if (assetsJSON !== null) {
+            resolve(JSON.parse(assetsJSON))
+        } else {
+            reject(assetsJSON)
+        }
+    })
+}

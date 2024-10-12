@@ -1,5 +1,5 @@
 import { createContext, useState, useEffect, useContext } from 'react'
-import { fakeFetchCrypto, fetchAssets } from '../api';
+import { fakeFetchCrypto, fetchAssets, fetchLocalStorage } from '../api';
 import { percentDifference } from '../utils'
 
 const CryptoContext = createContext({
@@ -32,18 +32,24 @@ export function CryptoContextProvider( {children} ) {
     useEffect(() => {
         async function preload() {
             setLoading(true)
-            const { result } = await fakeFetchCrypto()
-            const assets = await fetchAssets()
-
-            setAssets(mapAssets(assets, result))
-            setCrypto(result)
-            setLoading(false)
+            try {
+                const { result } = await fakeFetchCrypto()
+                setCrypto(result)
+                // const assets = await fetchAssets()
+                const assets = await fetchLocalStorage()
+                setAssets(mapAssets(assets, result))
+            } catch (err) {
+                console.error('Ошибка', err)
+            } finally {
+                setLoading(false)
+            }
         }
         preload()
     }, [])
 
     function addAsset(newAsset) {
         setAssets((prev) => mapAssets([...prev, newAsset], crypto))
+        localStorage.setItem('assets', JSON.stringify(mapAssets([...assets, newAsset], crypto)))
     }
     
     return (
