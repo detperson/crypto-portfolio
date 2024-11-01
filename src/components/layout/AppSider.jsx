@@ -1,28 +1,57 @@
-import { Layout, Card, Statistic, List, Typography, Tag } from 'antd';
-import { ArrowDownOutlined, ArrowUpOutlined } from '@ant-design/icons';
+import { Layout, Card, Statistic, List, Typography, Tag, Flex, Alert, Space, Button } from 'antd';
+import { ArrowDownOutlined, ArrowUpOutlined, DeleteOutlined } from '@ant-design/icons';
 import { capitalize } from '../../utils'
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import CryptoContext from '../../context/crypto-context';
+import '../../index.css'
 
 const siderStyle = {
     padding: '1rem',
 };
 
 export default function AppSider() {
-    const { assets } = useContext(CryptoContext)
-    
+    const { assets, deleteAsset } = useContext(CryptoContext)
+    const [showAlerts, setShowAlerts] = useState({})
+
+    function handleDeleteClick(assetId) {
+        setShowAlerts((prev) => {
+            return {
+                ...prev,
+                [assetId]: !prev[assetId],
+            }
+        })
+    }
+
     return (
         <Layout.Sider width="25%" style={siderStyle}>
             {assets.map(asset => (
-                <Card key={asset.id} style={{ marginBottom: '1rem' }}>
-                    <Statistic 
-                        title={capitalize(asset.id)}
-                        value={asset.totalAmount}
-                        precision={2}
-                        valueStyle={{ color: asset.grow ? '#3f8600' : '#cf1322'}}
-                        prefix={asset.grow ? <ArrowUpOutlined /> : <ArrowDownOutlined />}
-                        suffix="$"
-                    />
+                <Card key={asset.uniqId} style={{ marginBottom: '1rem' }}>
+                    {showAlerts[asset.uniqId] && 
+                    <Alert
+                        style={{ marginBottom: '10px' }}
+                        message={`Delete ${capitalize(asset.id)}?`}
+                        type="warning"
+                        action={
+                            <Space>
+                            <Button type="text" size="small" onClick={() => deleteAsset(asset)}>
+                                Delete
+                            </Button>
+                            </Space>
+                        }
+                        closable
+                        afterClose={() => handleDeleteClick(asset.uniqId)}
+                    />}
+                    <Flex justify='space-between' align='flex-start'>
+                        <Statistic 
+                            title={capitalize(asset.id)}
+                            value={asset.totalAmount}
+                            precision={2}
+                            valueStyle={{ color: asset.grow ? '#3f8600' : '#cf1322'}}
+                            prefix={asset.grow ? <ArrowUpOutlined /> : <ArrowDownOutlined />}
+                            suffix="$"
+                        />
+                        <DeleteOutlined className='delete-trash-icon' onClick={() => handleDeleteClick(asset.uniqId)}/>
+                    </Flex>
                     <List 
                         size="small"
                         dataSource={[

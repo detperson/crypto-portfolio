@@ -3,3 +3,12 @@
   padding: 0;
   box-sizing: border-box;
 }
+
+
+.delete-trash-icon {
+  color: rgba(0, 0, 0, 0.45);
+}
+
+.delete-trash-icon:hover {
+  color: rgba(255, 0, 0, 0.45);
+}

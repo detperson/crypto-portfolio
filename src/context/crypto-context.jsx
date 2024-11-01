@@ -18,12 +18,13 @@ export function CryptoContextProvider( {children} ) {
         return assets.map((asset) => {
             const coin = result.find((c) => c.id === asset.id)
             return {
+                ...asset,
                 grow: asset.price < coin.price, // Выросла крипта или нет
                 growPercent: percentDifference(asset.price, coin.price), // Выросла или упала в %
                 totalAmount: asset.amount * coin.price, // Текущая стоимость крипты сейчас в дол
                 totalProfit: asset.amount * coin.price - asset.amount * asset.price, // Сколько заработали или потеряли в дол
                 name: coin.name,
-                ...asset,
+                uniqId: (coin.symbol.toLowerCase()) + Math.random().toString(16).slice(2), // Уникальный id карточки
             }
         })
     }
@@ -55,9 +56,17 @@ export function CryptoContextProvider( {children} ) {
             return updatedAssets
         })
     }
+
+    function deleteAsset(remoteAsset) {
+        setAssets((prev) => {
+            const assetsWithoutAsset = prev.filter((asset) => asset.uniqId !== remoteAsset.uniqId)
+            localStorage.setItem('assets', JSON.stringify(assetsWithoutAsset))
+            return assetsWithoutAsset
+        })
+    }
     
     return (
-        <CryptoContext.Provider value={{ loading, crypto, assets, addAsset }} >
+        <CryptoContext.Provider value={{ loading, crypto, assets, addAsset, deleteAsset }} >
             {children}
         </CryptoContext.Provider>
     )

@@ -13,7 +13,7 @@ export async function fetchCrypto() {
         method: 'GET',
         headers: {
             accept: 'application/json',
-            'X-API-KEY': import.meta.env.VITE_WEATHER_APIKEY,
+            'X-API-KEY': import.meta.env.VITE_WEATHER_APIKEY, // скрываю Api ключ для загрузки на gitHub
         }
     }
 
