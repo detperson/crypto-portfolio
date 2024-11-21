@@ -23,13 +23,13 @@ export function CryptoContextProvider( {children} ) {
                 growPercent: percentDifference(asset.price, coin.price), // Выросла или упала в %
                 totalAmount: asset.amount * coin.price, // Текущая стоимость крипты сейчас в дол
                 totalProfit: asset.amount * coin.price - asset.amount * asset.price, // Сколько заработали или потеряли в дол
-                name: coin.name,
+                name: (asset.name ? asset.name : coin.name), //??
                 uniqId: (coin.symbol.toLowerCase()) + Math.random().toString(16).slice(2), // Уникальный id карточки
             }
         })
     }
 
-    //Делаем первый запрос за данными о крипте в целом и о крипте которая у нас есть
+    //Делаем первый запрос за данными о крипте в целом и о крипте которая у нас есть в портфолио
     useEffect(() => {
         async function preload() {
             setLoading(true)
@@ -51,7 +51,9 @@ export function CryptoContextProvider( {children} ) {
 
     function addAsset(newAsset) {
         setAssets((prev) => {
-            const updatedAssets = mapAssets([...prev, newAsset], crypto)
+            //Сортирую асеты по дате, что бы не менялся порядок при добавлении и редактировании
+            let sortedAssets = [...prev, newAsset].sort((a, b) => Date.parse(a.date) - Date.parse(b.date))
+            const updatedAssets = mapAssets(sortedAssets, crypto)
             localStorage.setItem('assets', JSON.stringify(updatedAssets))
             return updatedAssets
         })

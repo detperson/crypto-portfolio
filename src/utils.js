@@ -5,3 +5,11 @@ export function percentDifference(a, b) {
 export function capitalize(str) {
     return str.charAt(0).toUpperCase() + str.substring(1)
 }
+
+export function cropUrlToHostname(url) {
+    let hostName = new URL(url).hostname
+    if (hostName.indexOf('www.') === 0) {
+        hostName = hostName.replace('www.', '')
+    }
+    return hostName
+}

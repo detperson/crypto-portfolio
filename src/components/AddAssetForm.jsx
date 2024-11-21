@@ -1,4 +1,4 @@
-import { Select, Space, Divider, Form, InputNumber, Button, DatePicker, Result } from 'antd'
+import { Select, Space, Divider, Form, InputNumber, Input, Button, DatePicker, Result } from 'antd'
 import { useRef, useState } from "react"
 import { useCrypto } from '../context/crypto-context'
 import CoinInfo from './CoinInfo'
@@ -70,6 +70,7 @@ export default function AddAssetForm({ onClose }) {
             amount: values.amount,
             price: values.price,
             date: values.date?.$d ?? new Date(),
+            note: values.note,
         }
         assetRef.current = newAsset
         console.log('finish', values)
@@ -144,6 +145,10 @@ export default function AddAssetForm({ onClose }) {
 
             <Form.Item label="Total" name="total">
                 <InputNumber disabled style={{ width: '100%' }} />
+            </Form.Item>
+
+            <Form.Item label="Note" name="note">
+                <Input.TextArea placeholder='Note...' style={{ width: '100%' }} />
             </Form.Item>
 
             <Form.Item>

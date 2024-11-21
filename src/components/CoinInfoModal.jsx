@@ -1,5 +1,6 @@
-import { Divider, Tag, Typography } from 'antd'
+import { Divider, Flex, Tag, Typography } from 'antd'
 import CoinInfo from './CoinInfo'
+import { cropUrlToHostname } from '../utils'
 
 export default function CoinInfoModal({ coin }) {
     return (
@@ -30,11 +31,17 @@ export default function CoinInfoModal({ coin }) {
             </Typography.Paragraph>
             <Typography.Paragraph>
                 <Typography.Text strong>Market Cap: </Typography.Text>
-                {coin.marketCap}$
+                {coin.marketCap.toFixed(2)}$
             </Typography.Paragraph>
             {coin.contractAddress && <Typography.Paragraph>
                 <Typography.Text strong>Contract Address: </Typography.Text>
                 {coin.contractAddress}
+            </Typography.Paragraph>}
+            {coin.websiteUrl && <Typography.Paragraph>
+                <Typography.Text strong>Website: </Typography.Text>
+                <Tag>
+                    <a href={coin.websiteUrl} target='_blank'>{cropUrlToHostname(coin.websiteUrl)}</a>
+                </Tag> 
             </Typography.Paragraph>}
         </>
     )

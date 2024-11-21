@@ -1,17 +1,20 @@
-import { Layout, Card, Statistic, List, Typography, Tag, Flex, Alert, Space, Button } from 'antd';
-import { ArrowDownOutlined, ArrowUpOutlined, DeleteOutlined } from '@ant-design/icons';
+import { Layout, Card, Statistic, List, Typography, Tag, Flex, Alert, Space, Button, Modal, InputNumber, Input } from 'antd';
+import { ArrowDownOutlined, ArrowUpOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { capitalize } from '../../utils'
 import { useContext, useState } from 'react';
 import CryptoContext from '../../context/crypto-context';
 import '../../index.css'
+import EditAssetModal from '../EditAssetModal';
 
 const siderStyle = {
     padding: '1rem',
 };
 
 export default function AppSider() {
-    const { assets, deleteAsset } = useContext(CryptoContext)
+    const { assets, deleteAsset, addAsset } = useContext(CryptoContext)
     const [showAlerts, setShowAlerts] = useState({})
+    const [modal, setModal] = useState(false)
+    const [asset, setAsset] = useState({})
 
     function handleDeleteClick(assetId) {
         setShowAlerts((prev) => {
@@ -20,6 +23,17 @@ export default function AppSider() {
                 [assetId]: !prev[assetId],
             }
         })
+    }
+
+    function handleEditClick(clickedAsset) {
+        setAsset(clickedAsset)
+        setModal(true)
+    }
+
+    function handleModalOk() {
+        deleteAsset(asset)
+        addAsset(asset)
+        setModal(false)
     }
 
     return (
@@ -50,7 +64,10 @@ export default function AppSider() {
                             prefix={asset.grow ? <ArrowUpOutlined /> : <ArrowDownOutlined />}
                             suffix="$"
                         />
-                        <DeleteOutlined className='delete-trash-icon' onClick={() => handleDeleteClick(asset.uniqId)}/>
+                        <Flex>
+                            <EditOutlined style={{ color: "rgba(0, 0, 0, 0.45)", marginRight: '5px' }} onClick={() => handleEditClick(asset)} />
+                            <DeleteOutlined className='delete-trash-icon' onClick={() => handleDeleteClick(asset.uniqId)}/>
+                        </Flex>
                     </Flex>
                     <List 
                         size="small"
@@ -61,6 +78,7 @@ export default function AppSider() {
                                 withTag: true,
                             },
                             {title: 'Asset Amount', value: asset.amount, isPlain: true},
+                            {title: 'Asset Name', value: asset.name, isPlain: true},
                             // {title: 'Difference', value: asset.growPercent}
                         ]}
                         renderItem={(item) => (
@@ -84,6 +102,10 @@ export default function AppSider() {
                     />
                 </Card>
             ))}
+
+            <Modal title={asset.name} open={modal} onOk={handleModalOk} onCancel={() => setModal(false)}>
+                <EditAssetModal asset={asset} setAsset={setAsset} />
+            </Modal>
         </Layout.Sider>
     )
 }
