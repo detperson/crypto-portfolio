@@ -13,7 +13,7 @@ export async function fetchCrypto(isCache = true) {
         method: 'GET',
         headers: {
             accept: 'application/json',
-            'X-API-KEY': import.meta.env.VITE_WEATHER_APIKEY, // скрываю Api ключ для загрузки на gitHub
+            'X-API-KEY': process.env.WEATHER_APIKEY, // скрываю Api ключ для загрузки на gitHub
         }
     }
 
