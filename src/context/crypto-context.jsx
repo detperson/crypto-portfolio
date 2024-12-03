@@ -29,6 +29,16 @@ export function CryptoContextProvider( {children} ) {
         })
     }
 
+    async function updateCrypto() {
+        try {
+            const { result } = await fetchCrypto(false)
+            setCrypto(result)
+            setAssets(mapAssets(assets, result))
+        } catch (err) {
+            console.error('Ошибка:', err)
+        }
+    }
+
     //Делаем первый запрос за данными о крипте в целом и о крипте которая у нас есть в портфолио
     useEffect(() => {
         async function preload() {
@@ -68,7 +78,7 @@ export function CryptoContextProvider( {children} ) {
     }
     
     return (
-        <CryptoContext.Provider value={{ loading, crypto, assets, addAsset, deleteAsset }} >
+        <CryptoContext.Provider value={{ loading, crypto, assets, addAsset, deleteAsset, updateCrypto }} >
             {children}
         </CryptoContext.Provider>
     )

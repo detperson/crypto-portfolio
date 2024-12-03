@@ -8,12 +8,22 @@ export function fakeFetchCrypto() {
     })
 }
 
-export async function fetchCrypto() {
+export async function fetchCrypto(isCache = true) {
     const options = {
         method: 'GET',
         headers: {
             accept: 'application/json',
             'X-API-KEY': import.meta.env.VITE_WEATHER_APIKEY, // скрываю Api ключ для загрузки на gitHub
+        }
+    }
+
+    //Добавляю доп. параметры в запрос, что бы получть обновленные данные в ответ(а не закешированные, браузер кеширует ответ)
+    if (!isCache) {
+        options.headers = {
+            ...options.headers,
+            'Cache-Control': 'no-cache',
+            'Pragma': 'no-cache',
+            'Expires': '0',
         }
     }
 
