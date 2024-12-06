@@ -1,8 +1,26 @@
-# React + Vite
+# Pet Project "Crypto Portfolio"
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Что это?
+Pet проеект, Крипто Потфолио. Позволяет добавлять, анализировать, управлять и просматривать статистику ваших крипто активов и данные крипотовалют.
 
-Currently, two official plugins are available:
+## Технологии
+React, Context API, Ant Design UI, Chart.js (react-chartjs-2), JavaScript, HTML, CSS, REST, NPM, Vite, Git. <br>
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Как запустить<br>
+Для запуска приложения необходимо:<br>
+
+* Склонировать проект.
+* Установить все зависимости проекта, набрав в командной строке:
+
+#### `npm install`
+
+* Запустить проект командой:
+
+#### `npm run dev`
+
+
+<br>Проект запустится на локальном хосте, адрес будет показан в командной строке, перейдите по нему в браузере. Следуйте указаниям в командной строке.<br>
+
+Обычно проект можно посмотреть по адресу [http://localhost:5173](http://localhost:5173) перейдите для просмотра в браузере.
+
+Внимание *Приложение получает обновляемые данные о криптовалюте через Api, для работы требуется Api ключ. Либо можно использовать функцию ``fakeFetchCrypto`` в crypto-context*

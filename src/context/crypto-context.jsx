@@ -44,7 +44,7 @@ export function CryptoContextProvider( {children} ) {
         async function preload() {
             setLoading(true)
             try {
-                // const { result } = await fakeFetchCrypto()
+                // const { result } = await fakeFetchCrypto() //Раскомментировать для работы без Api
                 const { result } = await fetchCrypto()
                 setCrypto(result)
                 // const assets = await fetchAssets()
