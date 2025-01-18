@@ -27,7 +27,7 @@ export async function fetchCrypto(isCache = true) {
         }
     }
 
-    const response = await fetch('https://openapiv1.coinstats.app/coins', options)
+    const response = await fetch('https://openapiv1.coinstats.app/coins?limit=40', options)
     
     if (!response.ok) {
         throw new Error(`Ошибка: ${response.statusText}`)
