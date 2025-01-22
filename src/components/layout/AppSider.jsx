@@ -1,6 +1,5 @@
 import { Layout, Card, Statistic, List, Typography, Tag, Flex, Alert, Space, Button, Modal, InputNumber, Input } from 'antd';
 import { ArrowDownOutlined, ArrowUpOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons';
-import { capitalize } from '../../utils'
 import { useContext, useState } from 'react';
 import CryptoContext from '../../context/crypto-context';
 import '../../index.css'
@@ -43,7 +42,7 @@ export default function AppSider() {
                     {showAlerts[asset.uniqId] && 
                     <Alert
                         style={{ marginBottom: '10px' }}
-                        message={`Delete ${capitalize(asset.id)}?`}
+                        message={`Delete ${asset.name}?`}
                         type="warning"
                         action={
                             <Space>
@@ -57,7 +56,7 @@ export default function AppSider() {
                     />}
                     <Flex justify='space-between' align='flex-start'>
                         <Statistic 
-                            title={capitalize(asset.id)}
+                            title={asset.name}
                             value={asset.totalAmount}
                             precision={2}
                             valueStyle={{ color: asset.grow ? '#3f8600' : '#cf1322'}}
@@ -78,7 +77,7 @@ export default function AppSider() {
                                 withTag: true,
                             },
                             {title: 'Asset Amount', value: asset.amount, isPlain: true},
-                            {title: 'Asset Name', value: asset.name, isPlain: true},
+                            {title: 'Asset Symbol', value: asset.symbol, isPlain: true},
                             // {title: 'Difference', value: asset.growPercent}
                         ]}
                         renderItem={(item) => (

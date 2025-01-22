@@ -25,6 +25,7 @@ export function CryptoContextProvider( {children} ) {
                 totalProfit: asset.amount * coin.price - asset.amount * asset.price, // Сколько заработали или потеряли в дол
                 name: (asset.name ? asset.name : coin.name), //??
                 uniqId: (coin.symbol.toLowerCase()) + Math.random().toString(16).slice(2), // Уникальный id карточки
+                symbol: (asset.symbol ? asset.symbol : coin.symbol),
             }
         })
     }
